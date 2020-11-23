@@ -63,8 +63,8 @@ def update_check(id, conclusion, output)
 end
 
 @annotation_levels = {
-  'refactor' => 'failure',
-  'convention' => 'failure',
+  'refactor' => 'warning',
+  'convention' => 'warning',
   'warning' => 'warning',
   'error' => 'failure',
   'fatal' => 'failure'
