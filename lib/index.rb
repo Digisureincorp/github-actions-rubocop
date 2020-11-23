@@ -58,9 +58,7 @@ def update_check(id, conclusion, output)
   path = "/repos/#{@owner}/#{@repo}/check-runs/#{id}"
 
   resp = http.patch(path, body.to_json, @headers)
-  puts path
-  puts body
-  puts @headers
+  puts resp.body
 
   raise resp.message if resp.code.to_i >= 300
 end
@@ -96,19 +94,19 @@ def run_rubocop
       conclusion = 'failure' if annotation_level == 'failure'
 
       annotations.push(
-        'path' => path,
-        'start_line' => location['start_line'],
-        'end_line' => location['start_line'],
-        "annotation_level": annotation_level,
-        'message' => message
+        path: path,
+        start_line: location['start_line'],
+        end_line: location['start_line'],
+        annotation_level: annotation_level,
+        message: message
       )
     end
   end
 
   output = {
-    "title": @check_name,
-    "summary": "#{count} offense(s) found",
-    'annotations' => annotations
+    title: @check_name,
+    summary: "#{count} offense(s) found",
+    annotations: annotations
   }
 
   { 'output' => output, 'conclusion' => conclusion }
