@@ -58,7 +58,6 @@ def update_check(id, conclusion, output)
   path = "/repos/#{@owner}/#{@repo}/check-runs/#{id}"
 
   resp = http.patch(path, body.to_json, @headers)
-  puts resp.body
 
   raise resp.message if resp.code.to_i >= 300
 end
@@ -102,6 +101,8 @@ def run_rubocop
       )
     end
   end
+
+  annotations = annotations.take(50) if annotations.size > 50
 
   output = {
     title: @check_name,
